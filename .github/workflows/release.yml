@@ -19,56 +19,23 @@ jobs:
 
     strategy:
       matrix:
-        target:
-        - aarch64-apple-darwin
-        - x86_64-apple-darwin
-        - x86_64-pc-windows-msvc
-        - aarch64-pc-windows-msvc
-        - x86_64-unknown-linux-gnu
-        - x86_64-unknown-linux-musl
-        - aarch64-unknown-linux-gnu
         extra: ['bin']
         include:
-        - target: aarch64-apple-darwin
-          os: macos-latest
-          target_rustflags: ''
-        - target: x86_64-apple-darwin
-          os: macos-latest
-          target_rustflags: ''
-        - target: x86_64-pc-windows-msvc
-          extra: 'bin'
+        - extra: msi
           os: windows-latest
           target_rustflags: ''
-        - target: x86_64-pc-windows-msvc
-          extra: msi
+        - extra: 'bin'
           os: windows-latest
-          target_rustflags: ''
-        - target: aarch64-pc-windows-msvc
-          extra: 'bin'
-          os: windows-latest
-          target_rustflags: ''
-        - target: aarch64-pc-windows-msvc
-          extra: msi
-          os: windows-latest
-          target_rustflags: ''
-        - target: x86_64-unknown-linux-gnu
-          os: ubuntu-20.04
-          target_rustflags: ''
-        - target: x86_64-unknown-linux-musl
-          os: ubuntu-20.04
-          target_rustflags: ''
-        - target: aarch64-unknown-linux-gnu
-          os: ubuntu-20.04
           target_rustflags: ''
 
-    runs-on: ${{matrix.os}}
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
 
     - name: Update Rust Toolchain Target
       run: |
-        echo "targets = ['${{matrix.target}}']" >> rust-toolchain.toml
+        echo "targets = ['x86_64-pc-windows-msvc']" >> rust-toolchain.toml
 
     - name: Setup Rust toolchain and cache
       uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
@@ -86,7 +53,7 @@ jobs:
       env:
         OS: ${{ matrix.os }}
         REF: ${{ github.ref }}
-        TARGET: ${{ matrix.target }}
+        TARGET: x86_64-pc-windows-msvc
         _EXTRA_: ${{ matrix.extra }}
         TARGET_RUSTFLAGS: ${{ matrix.target_rustflags }}
 
