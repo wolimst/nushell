@@ -101,9 +101,9 @@ if $os in [$USE_UBUNTU, 'macos-latest'] {
 if $os in ['windows-latest'] {
     # let-env CARGO_BUILD_TARGET = $target
     if ($flags | str trim | is-empty) {
-        cargo build --release --all --target $target
+        cargo build --release --all --target $target --verbose
     } else {
-        cargo build --release --all --target $target $flags
+        cargo build --release --all --target $target $flags --verbose
     }
 }
 
@@ -176,7 +176,7 @@ if $os in [$USE_UBUNTU, 'macos-latest'] {
         # Wix need the binaries be stored in target/release/
         cp -r $'($dist)/*' target/release/
         cargo install cargo-wix --version 0.3.4
-        cargo wix --no-build --nocapture --package nu --output $wixRelease
+        cargo wix --no-build --nocapture --package nu --output $wixRelease --verbose
         print $'archive: ---> ($wixRelease)';
         echo $"archive=($wixRelease)" | save --append $env.GITHUB_OUTPUT
 
@@ -195,9 +195,9 @@ if $os in [$USE_UBUNTU, 'macos-latest'] {
 
 def 'cargo-build-nu' [ options: string ] {
     if ($options | str trim | is-empty) {
-        cargo build --release --all --target $target --features=static-link-openssl
+        cargo build --release --all --target $target --features=static-link-openssl --verbose
     } else {
-        cargo build --release --all --target $target --features=static-link-openssl $options
+        cargo build --release --all --target $target --features=static-link-openssl $options --verbose
     }
 }
 
