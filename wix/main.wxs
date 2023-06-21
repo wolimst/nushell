@@ -389,7 +389,7 @@
             BinaryKey="WixCA"
             DllEntry="CAQuietExec"
             Execute="deferred"
-            Return="ignore"
+            Return="check"
             Impersonate="yes"/>
         <InstallExecuteSequence>
             <Custom Action='ReplacePathsInWindowsTerminalProfile' Before='InstallFinalize'>
